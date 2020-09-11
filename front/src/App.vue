@@ -1,18 +1,30 @@
 <template>
     <div class="Content">
-        <MainLeft class="Left"/>
-        <MainRight class="Right"/>
+        <MainLeft v-if="write" @ChangeWrite="ChangeWrite" class="Left"/>
+        <MainRight v-if="write" class="Right"/>
+		<Write v-if="write" class="Action"/>
+		<Read class="Action"/>
     </div>
 </template>
 
 <script>
-import MainLeft from './components/Left/Left';
-import MainRight from './components/Right/Right';
+import MainLeft from './components/Main/Left/Left';
+import MainRight from './components/Main/Right/Right';
+import Write from './components/Write/Write';
+import Read from './components/Read/Read';
 export default {
-    components:{MainLeft,MainRight},
+    components:{MainLeft,MainRight,Write,Read},
     data(){
-      return {};
-    }
+		return {
+			read:false,
+			write:false
+		};
+	},
+	methods:{
+		ChangeWrite(){
+			this.write=!this.write;
+		}
+	}
 }
 </script>
 	
@@ -28,6 +40,12 @@ export default {
     position: absolute;
     width: 50%;
     left:50%;
+}
+.Main{
+	z-index: 1;
+}
+.Action{
+	z-index: 2;
 }
 </style>
 <style>

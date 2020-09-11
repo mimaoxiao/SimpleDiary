@@ -53,6 +53,7 @@ export default {
         },
         ToNew(){
             this.active=true;
+            let that=this;
             const targets = this.$refs.Box;
             const back = this.$el;
             this.$anime.timeline({
@@ -65,6 +66,11 @@ export default {
             }).add({
                 targets:back,
                 width:'100%',
+                complete:function(ani){
+                    if(ani.completed){
+                        that.$emit('ChangeWrite');
+                    }
+                }
             },0);
         }
     }
