@@ -13,6 +13,39 @@ export default {
     data(){
       return {};
     },
+    props:['reverse'],
+    mounted(){
+        if(this.reverse=='right'){
+            this.active=true;
+            this.$nextTick(function(){
+                let that=this;
+                const targets = this.$refs.Box;
+                const back = this.$el;
+                this.$anime.timeline({
+                    easing: 'easeOutCirc',
+                    duration:750
+                })
+                .add({
+                    targets:back,
+                    duration:0,
+                    backgroundColor:'#5699f0'
+                })
+                .add({
+                    targets:targets,
+                    opacity:[0,1],
+                }).add({
+                    targets:back,
+                    width:['100%','50%'],
+                    left:['0','50%'],
+                    complete:function(ani){
+                        if(ani.completed){
+                            that.active=false;
+                        }
+                    }
+                },0);
+            })
+        }
+    },
     methods:{
         ShowTime(){
             const targets = this.$refs.Box;
@@ -50,17 +83,23 @@ export default {
             this.active=true;
             const targets = this.$refs.Box;
             const back = this.$el;
-            this.$anime.timeline()
+            let that=this;
+            this.$anime.timeline({
+                easing: 'easeOutCirc',
+                duration:750
+            })
             .add({
                 targets:targets,
                 opacity:0,
-                easing: 'easeOutCirc',
-                duration:1000
             }).add({
                 targets:back,
+                left:'0',
                 width:'100%',
-                easing: 'easeOutCirc',
-                duration:1000
+                complete:function(ani){
+                    if(ani.completed){
+                        that.$emit('ChangeRead');
+                    }
+                }
             },0);
         }
     }

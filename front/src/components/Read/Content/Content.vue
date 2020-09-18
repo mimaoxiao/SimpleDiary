@@ -3,21 +3,28 @@
         <div class="ContentTitle">Meow</div>
         <div class="ContentText">
             test
-            <div ref="1delete" class="ContentTextDelete" style="background-color:rgb(86, 153, 240)" @mousedown="showclick('1delete')" @mouseup="backclick('1delete')" @mouseenter="showin('1delete')" @mouseleave="backin('1delete')">
-                <img class="ContentIcon" src="@/assets/delete.svg"/>
+            <div @click="DeleteVisible=true" ref="1delete" class="ContentTextDelete" style="background-color:rgb(86, 153, 240)" @mousedown="showclick('1delete')" @mouseup="backclick('1delete')" @mouseenter="showin('1delete')" @mouseleave="backin('1delete')">
+                <img class="ContentIcon" src="@/assets/readDelete.svg"/>
             </div>
-            <div ref="1edit" class="ContentTextEdit" style="background-color:rgb(86, 153, 240)" @mousedown="showclick('1edit')" @mouseup="backclick('1edit')" @mouseenter="showin('1edit')" @mouseleave="backin('1edit')">
-                <img class="ContentIcon" src="@/assets/edit.svg"/>
+            <ReadContentDelete @close="DialogClose" :visible="DeleteVisible"/>
+            <div @click="EditVisible=true" ref="1edit" class="ContentTextEdit" style="background-color:rgb(86, 153, 240)" @mousedown="showclick('1edit')" @mouseup="backclick('1edit')" @mouseenter="showin('1edit')" @mouseleave="backin('1edit')">
+                <img class="ContentIcon" src="@/assets/readEdit.svg"/>
             </div>
+            <ReadContentEdit @close="DialogClose" :visible="EditVisible"/>
         </div>
     </div>
 </template>
 
 <script>
-
+import ReadContentDelete from './Delete/Delete';
+import ReadContentEdit from './Edit/Edit';
 export default {
+    components:{ReadContentDelete,ReadContentEdit},
     data(){
-      return {};
+        return {
+            DeleteVisible:false,
+            EditVisible:false
+        };
     },
     methods:{
         showin(aim){
@@ -55,6 +62,9 @@ export default {
                 targets:target,
                 backgroundColor:'#3c80da'
             })         
+        },
+        DialogClose(){
+            this.DeleteVisible=false,this.EditVisible=false;
         }
     }
 }

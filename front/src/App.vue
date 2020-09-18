@@ -1,29 +1,38 @@
 <template>
     <div class="Content">
-        <MainLeft v-if="write" @ChangeWrite="ChangeWrite" class="Left"/>
-        <MainRight v-if="write" class="Right"/>
-		<Write v-if="write" class="Action"/>
-		<Read class="Action"/>
+		<Main @ChangeWrite="ChangeWrite" @ChangeRead="ChangeRead" v-if="!(read||write)" class="Main" :reverse="reverse"/>
+		<Write class="Action" v-if="write" @ChangeWrite="ChangeWrite"/>
+		<Read class="Action" v-if="read" @ChangeRead="ChangeRead"/>
     </div>
 </template>
 
 <script>
-import MainLeft from './components/Main/Left/Left';
-import MainRight from './components/Main/Right/Right';
+/*import Write from './components/Write/Write';
+import Read from './components/Read/Read';*/
+import Main from './components/Main/Main';
 import Write from './components/Write/Write';
 import Read from './components/Read/Read';
 export default {
-    components:{MainLeft,MainRight,Write,Read},
+    components:{Main,Write,Read},
     data(){
 		return {
 			read:false,
-			write:false
+			write:false,
+			reverse:false
 		};
 	},
 	methods:{
 		ChangeWrite(){
 			this.write=!this.write;
+			if(this.write==false)this.reverse='left';
+		},
+		ChangeRead(){
+			this.read=!this.read;
+			if(this.read==false)this.reverse='right';
 		}
+	},
+	mounted(){
+		
 	}
 }
 </script>
@@ -32,29 +41,14 @@ export default {
 .Content{
     height:100vh;
 }
-.Left{
-    width: 50%;
-    position: absolute;
-}
-.Right{
-    position: absolute;
-    width: 50%;
-    left:50%;
-}
-.Main{
-	z-index: 1;
-}
-.Action{
-	z-index: 2;
-}
 </style>
 <style>
 body{
-  margin:0;
-  font-family: 'HuangYou';
+	margin:0;
+	font-family: 'HuangYou';
 }
 @font-face {
-  font-family: 'HuangYou';
-  src: url('./HuangYou-Regular.ttf');
+	font-family: 'HuangYou';
+	src: url('./HuangYou-Regular.ttf');
 }
 </style>

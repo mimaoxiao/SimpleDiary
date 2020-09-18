@@ -15,8 +15,38 @@ export default {
           active:false
       };
     },
+    props:['reverse'],
     mounted(){
-
+        if(this.reverse=='left'){
+            this.active=true;
+            this.$nextTick(function(){
+                let that=this;
+                const targets = this.$refs.Box;
+                const back = this.$el;
+                this.$anime.timeline({
+                    easing: 'easeOutCirc',
+                    duration:750
+                })
+                .add({
+                    targets:back,
+                    duration:0,
+                    backgroundColor:'#da6985'
+                })
+                .add({
+                    targets:targets,
+                    opacity:[0,1],
+                },0)
+                .add({
+                    targets:back,
+                    width:['100%','50%'],
+                    complete:function(ani){
+                        if(ani.completed){
+                            that.active=false;
+                        }
+                    }
+                },0);  
+            })
+        }
     },
     methods:{
         ShowTime(){
