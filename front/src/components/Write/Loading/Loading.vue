@@ -10,8 +10,8 @@
     top="30vh">
         <div class="Loading">
             <div v-if="!success&&!fail" ref="Ani" class="LoadingAni"></div>
-            <img v-if="success" ref="Ani" class="LoadingFinish" src="@/assets/success.svg"/>
-            <img v-if="fail" ref="Ani" class="LoadingFinish" src="@/assets/error.svg"/>
+            <img v-if="success" ref="Ani" class="LoadingFinish" src="@/assets/WriteSuccess.svg"/>
+            <img v-if="fail" ref="Ani" class="LoadingFinish" src="@/assets/WriteError.svg"/>
         </div>
         <div class="LoadingText">{{text}}</div>
     </el-dialog>
@@ -28,7 +28,7 @@ export default {
             fail:false
         };
     },
-    props:['visible','action','startText'],
+    props:['visible','action'],
     methods:{
         close(){
             if(this.finish)this.$emit('close');

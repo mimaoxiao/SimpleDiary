@@ -6,5 +6,7 @@ node.js+vue
 
 首页动画启动时锁定行动
 
+Read 加载动画
+
 icon from:https://icons.getbootstrap.com/
 https://material.io/resources/icons/

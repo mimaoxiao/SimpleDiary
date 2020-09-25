@@ -7,8 +7,6 @@
 </template>
 
 <script>
-/*import Write from './components/Write/Write';
-import Read from './components/Read/Read';*/
 import Main from './components/Main/Main';
 import Write from './components/Write/Write';
 import Read from './components/Read/Read';

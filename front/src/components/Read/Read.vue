@@ -1,7 +1,7 @@
 <template>
     <div class="Read">
-        <ReadList class="ReadList"/>
-        <ReadContent class="ReadContent"/>
+        <ReadList @LoadingContent="LoadingContent" class="ReadList"/>
+        <ReadContent v-if="Read" :DiaryPath="ReadData" class="ReadContent"/>
     </div>
 </template>
 
@@ -11,7 +11,10 @@ import ReadContent from './Content/Content';
 export default {
     components:{ReadList,ReadContent},
     data(){
-      return {};
+      return {
+          ReadData:{},
+          Read:false
+      };
     },
     mounted(){
         this.$nextTick(function(){
@@ -49,6 +52,13 @@ export default {
                     }
                 });
             }
+        },
+        LoadingContent(data){
+            this.ReadData=data;
+            console.log(data);
+            if(this.Read==false){
+                this.Read=true;
+            }
         }
     }
 }
@@ -65,7 +75,7 @@ export default {
     width: 30%;
 }
 .ReadContent{
-    width: 70%;
+    width: 60%;
 }
 @font-face {
     font-family: 'KuaiLe';

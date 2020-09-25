@@ -1,17 +1,19 @@
 <template>
     <div class="ReadContent">
         <div class="ContentTitle">Meow</div>
-        <div class="ContentText">
-            test
-            <div @click="DeleteVisible=true" ref="1delete" class="ContentTextDelete" style="background-color:rgb(86, 153, 240)" @mousedown="showclick('1delete')" @mouseup="backclick('1delete')" @mouseenter="showin('1delete')" @mouseleave="backin('1delete')">
+        <div v-for="(item,index) in DiaryData" :key="index" class="ContentText">
+            {{item.content}}
+            <div @click="DeleteVisible=true" :ref="index+'delete'" class="ContentTextDelete" style="background-color:rgb(86, 153, 240)" @mousedown="showclick(index+'delete')" @mouseup="backclick(index+'delete')" @mouseenter="showin(index+'delete')" @mouseleave="backin(index+'delete')">
                 <img class="ContentIcon" src="@/assets/readDelete.svg"/>
             </div>
-            <ReadContentDelete @close="DialogClose" :visible="DeleteVisible"/>
-            <div @click="EditVisible=true" ref="1edit" class="ContentTextEdit" style="background-color:rgb(86, 153, 240)" @mousedown="showclick('1edit')" @mouseup="backclick('1edit')" @mouseenter="showin('1edit')" @mouseleave="backin('1edit')">
+            
+            <div @click="EditVisible=true" :ref="index+'edit'" class="ContentTextEdit" style="background-color:rgb(86, 153, 240)" @mousedown="showclick(index+'edit')" @mouseup="backclick(index+'edit')" @mouseenter="showin(index+'edit')" @mouseleave="backin(index+'edit')">
                 <img class="ContentIcon" src="@/assets/readEdit.svg"/>
             </div>
-            <ReadContentEdit @close="DialogClose" :visible="EditVisible"/>
+            
         </div>
+        <ReadContentEdit @close="DialogClose" :visible="EditVisible"/>
+        <ReadContentDelete @close="DialogClose" :visible="DeleteVisible"/>
     </div>
 </template>
 
@@ -23,9 +25,11 @@ export default {
     data(){
         return {
             DeleteVisible:false,
-            EditVisible:false
+            EditVisible:false,
+            DiaryData:[]
         };
     },
+    props:['Aim','DiaryPath'],
     methods:{
         showin(aim){
             let target=this.$refs[aim];
@@ -66,6 +70,27 @@ export default {
         DialogClose(){
             this.DeleteVisible=false,this.EditVisible=false;
         }
+    },
+    mounted(){
+        const that=this;
+        this.$nextTick(function(){
+            const target=that.$el;
+            that.$anime({
+                targets:target,
+                easing: 'easeOutCirc',
+                opacity:[0,1],
+                translateX:[10,0],
+                duration:500
+            });
+        });
+        
+        const data=this.DiaryPath;
+        this.$link.readDiary(data,function(response){
+            that.DiaryData=response.data.data;
+        },function(err){
+            console.log(err);
+
+        })
     }
 }
 </script>
@@ -78,6 +103,7 @@ export default {
     margin: 2em;
     border: 5px solid #3c80da;
     color: #97c4ff;
+    opacity:0;
 }
 .ContentTitle{
     font-size: 3em;
